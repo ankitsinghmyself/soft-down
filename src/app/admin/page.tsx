@@ -1,9 +1,14 @@
 "use client";
-import Link from "next/link";
+
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Sidebar from "../../components/admin/sidebar/Sidebar";
+import Layout from "@/components/admin/Layout";
+import MiniStatistics from "@/components/card/MiniStatistics";
+import IconBox from "@/components/icons/IconBox";
+import { MdBarChart } from "react-icons/md";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -11,11 +16,11 @@ export default function AdminPage() {
   const admin = async () => {
     try {
       const response = await axios.get("/api/admin/dashboard");
+      setIsAdmin(response.data.isAdmin);
       if (response.data.isAdmin === false) {
         router.push("/");
         return;
       }
-      setIsAdmin(response.data.isAdmin);
       toast.success("Admin success");
     } catch (error: any) {
       console.log("Admin failed", error.message);
@@ -25,13 +30,44 @@ export default function AdminPage() {
   useEffect(() => {
     admin();
   }, []);
+
   return (
     <>
       {isAdmin ? (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-          <h1>Admin Page</h1>
-          <hr />
-        </div>
+        <>
+          <Layout>
+            <div className="pt-80px md:pt-130px xl:pt-80px">
+              {/* Admin content */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-20px mb-20px">
+                <MiniStatistics
+                  startContent={
+                    <IconBox
+                      className="w-56px h-56px bg-secondaryGray-300"
+                      icon={
+                        <MdBarChart className="w-32px h-32px text-brand-500" />
+                      }
+                    />
+                  }
+                  name="Earnings"
+                  value="$350.4"
+                />
+                <MiniStatistics
+                  startContent={
+                    <IconBox
+                      className="w-56px h-56px bg-secondaryGray-300"
+                      icon={
+                        <MdBarChart className="w-32px h-32px text-brand-500" />
+                      }
+                    />
+                  }
+                  name="Earnings"
+                  value="$350.4"
+                />
+                {/* Add more MiniStatistics components here */}
+              </div>
+            </div>
+          </Layout>
+        </>
       ) : (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
           <h1>Page not found</h1>
