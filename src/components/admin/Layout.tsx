@@ -10,20 +10,23 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const contentStyles = {
+    paddingLeft: '300px', // Adjust the left padding as needed
+  };
+
   return (
     <Flex h="100vh">
       <Sidebar />
-      <Flex direction="column" flex="1">
+      <Flex direction="column" flex="1" style={contentStyles}>
         <Header />
         <Box
-            mx='auto'
-            p={{ base: '20px', md: '30px' }}
-            pe='20px'
-            minH='100vh'
-            pt='50px'
-          >
-            {children}
-          </Box>
+          px="50px" // No horizontal padding here
+          py="50px"
+          flexGrow={1}
+          overflowY="auto"
+        >
+          {children}
+        </Box>
       </Flex>
     </Flex>
   );

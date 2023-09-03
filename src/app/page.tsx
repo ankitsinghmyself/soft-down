@@ -4,13 +4,11 @@ import Image from "next/image";
 import { NextUIProvider } from "@nextui-org/react";
 import Navbar from "@/components/header/Navbar";
 import Footer from "@/components/footer/Footer";
-
 export default function Home() {
   return (
     <NextUIProvider>
       {/* Navbar */}
       <Navbar />
-
       {/* Hero Section */}
       <section className="relative h-96 flex items-center">
         <Image

@@ -29,8 +29,8 @@ function Sidebar() {
   const routes: Route[] = [
     {
       layout: '/admin',
-      path: '/products',
-      name: 'Products',
+      path: '/softwares',
+      name: 'softwares',
       icon: <DashboardIcon />,
     },
   ];
@@ -72,8 +72,8 @@ export function SidebarResponsive() {
   const routes: Route[] = [
     {
       layout: '/admin',
-      path: '/products',
-      name: 'Products',
+      path: '/softwares',
+      name: 'softwares',
       icon: <DashboardIcon />,
     },
   ];

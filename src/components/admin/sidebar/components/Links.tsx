@@ -13,7 +13,6 @@ interface SidebarLinksProps {
 
 export function SidebarLinks(props: SidebarLinksProps) {
   const { routes } = props;
-console.log('dd',routes);
   const createLinks = (routes: SidebarLinksProps['routes']) => {
     return routes.map((route, index: number) => {
       if (route.layout === '/admin') {
