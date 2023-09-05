@@ -58,7 +58,7 @@ export default function App() {
           <SoftDown />
           <p className="font-bold text-inherit">SoftDown</p>
         </NavbarBrand>
-        <NavbarItem>
+        {/* <NavbarItem>
           <Link color="foreground" href="#">
             Features
           </Link>
@@ -72,7 +72,7 @@ export default function App() {
           <Link color="foreground" href="#">
             Integrations
           </Link>
-        </NavbarItem>
+        </NavbarItem> */}
       </NavbarContent>
 
       <NavbarContent justify="end">

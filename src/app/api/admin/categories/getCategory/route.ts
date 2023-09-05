@@ -6,10 +6,10 @@ connect(); // Initialize your database connection
 
 export async function GET(req: NextRequest) {
   try {
-    const Category = await SoftwareCategory.find({});
+    const categories = await SoftwareCategory.find({});
     const response = NextResponse.json({
       success: true,
-      Category,
+      categories,
     });
     return response;
   } catch (error: any) {

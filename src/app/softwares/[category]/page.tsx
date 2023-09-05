@@ -13,7 +13,7 @@ interface Software {
   category: string;
 }
 
-export default function WindowsSoftwares() {
+export default function Softwares({ categoryName: string }) {
   const [softwareList, setSoftwareList] = useState<Software[]>([]);
   const [originalSoftwareList, setOriginalSoftwareList] = useState<Software[]>(
     []
@@ -76,7 +76,7 @@ export default function WindowsSoftwares() {
           </ul>
         </div>
         <div className="w-9/12 p-4">
-          <div className="bg-gray-300 p-2 mb-10">
+          {/* <div className="bg-gray-300 p-2 mb-10">
             <div
               className=" flex
               justify-left items-center text-sm text-gray-600 font-light 
@@ -100,21 +100,45 @@ export default function WindowsSoftwares() {
                 </span>
               ))}
             </div>
-          </div>
-          <ul className="grid grid-cols-4 gap-4">
+          </div> */}
+          <ul className="space-y-6">
             {softwareList.map((software) => (
-              <li key={software._id} className="  ">
-                <a href={software.link} target="_blank" rel="noreferrer">
-                  <img
-                    className="w-1/2 h-auto object-fill rounded-lg shadow-md mb-2 hover:shadow-xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:rotate-12"
-                    src={software.image}
-                    alt={software.name}
-                  />
-                  <h2 className="text-xl font-semibold">{software.name}</h2>
+              <li
+                key={software._id}
+                className="flex items-center p-4 rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 transition-transform duration-300 ease-in-out"
+              >
+                <a
+                  href={software.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-1 flex items-center space-x-4"
+                >
+                  <div className="w-20 h-20 relative">
+                    <img
+                      src={software.image}
+                      alt={software.name}
+                      className="w-full h-full rounded-lg "
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      {software.name}
+                    </h2>
+                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                      {software.description}
+                    </p>
+                  </div>
                 </a>
-                <p className="text-gray-600 line-clamp-2">
-                  {software.description}
-                </p>
+                <div className="p-4 text-center">
+                  <a
+                    href={software.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 ease-in-out"
+                  >
+                    Download
+                  </a>
+                </div>
               </li>
             ))}
           </ul>

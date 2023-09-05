@@ -11,6 +11,7 @@ import {
   IconButton,
   Card,
   Text,
+  Select,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import Layout from "@/components/admin/Layout";
@@ -29,6 +30,12 @@ export default function Software() {
       image: "",
     },
   ]);
+  const [categories, setCategories] = useState([
+    {
+      _id: "",
+      name: "",
+    },
+  ]);
 
   const [newSoftware, setNewSoftware] = useState({
     name: "",
@@ -45,6 +52,16 @@ export default function Software() {
       }
     };
     fetchSoftwares();
+    // Fetch categories data
+    const fetchCategories = async () => {
+      const response = await axios.get("/api/admin/categories/getCategory"); // Replace with your category API endpoint
+      console.log("dd", response.data);
+
+      if (response.status === 200) {
+        setCategories(response.data.categories);
+      }
+    };
+    fetchCategories();
   }, []);
 
   // Function to handle editing a software (you can implement this)
@@ -164,16 +181,19 @@ export default function Software() {
             </div>
             <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
               <div className="mb-4">
-                <input
-                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
-                  id="softwareCategory"
-                  type="text"
-                  placeholder="Software Category"
+                <Select
+                  placeholder="Select a Category"
                   value={newSoftware.category}
                   onChange={(e) =>
                     setNewSoftware({ ...newSoftware, category: e.target.value })
                   }
-                />
+                >
+                  {categories.map((category) => (
+                    <option key={category._id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Select>
               </div>
               <div className="mb-4">
                 <input
