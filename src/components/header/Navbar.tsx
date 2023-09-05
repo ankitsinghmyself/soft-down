@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -14,29 +14,28 @@ import {
 import { SoftDown } from "./SoftDownLogo.jsx";
 
 export default function App() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [isLogin, setIsLogin] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const menuItems = [
     "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
+    // "Dashboard",
+    // "Activity",
+    // "Analytics",
+    // "System",
+    // "Deployments",
+    // "My Settings",
+    // "Team Settings",
+    // "Help & Feedback",
   ];
   useEffect(() => {
-    if (!isLogin) {
-      menuItems.pop();
-      menuItems.push("Log In");
+    if (localStorage.getItem("isLogin") === "true") {
+      setIsLogin(true);
     } else {
-      menuItems.pop();
-      menuItems.push("Log Out");
+      setIsLogin(false);
     }
-  }, [isLogin]);
+  }, []);
+
+  
 
   return (
     <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
@@ -48,15 +47,19 @@ export default function App() {
 
       <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
-          <SoftDown />
-          <p className="font-bold text-inherit">Soft Down</p>
+          <Link color="foreground" href="/">
+            <SoftDown />
+            <p className="font-bold text-inherit">Soft Down</p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarBrand>
-          <SoftDown />
-          <p className="font-bold text-inherit">SoftDown</p>
+          <Link color="foreground" href="/">
+            <SoftDown />
+            <p className="font-bold text-inherit">SoftDown</p>
+          </Link>
         </NavbarBrand>
         {/* <NavbarItem>
           <Link color="foreground" href="#">
@@ -76,14 +79,22 @@ export default function App() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="/login">Login</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="warning" href="/signup" variant="flat">
-            Sign Up
-          </Button>
-        </NavbarItem>
+        {!isLogin ? (
+          <>
+            <NavbarItem className="hidden lg:flex">
+              <Link href="/login">Login</Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button as={Link} color="warning" href="/signup" variant="flat">
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        ) : (
+          <NavbarItem className="hidden lg:flex">
+            <Link href="/profile">Profile</Link>
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       <NavbarMenu>
@@ -98,7 +109,13 @@ export default function App() {
                   ? "danger"
                   : "foreground"
               }
-              href={index === menuItems.length - 1 ? (isLogin ? "/login" : "/logout") : "#"}
+              href={
+                index === menuItems.length - 1
+                  ? isLogin
+                    ? "/login"
+                    : "/logout"
+                  : "#"
+              }
               size="lg"
             >
               {item}
