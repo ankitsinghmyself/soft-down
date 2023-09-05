@@ -33,6 +33,12 @@ function Sidebar() {
       name: 'softwares',
       icon: <DashboardIcon />,
     },
+    {
+      layout: '/admin',
+      path: '/categories',
+      name: 'categories',
+      icon: <DashboardIcon />,
+    }
   ];
   return (
     <Box
@@ -76,6 +82,12 @@ export function SidebarResponsive() {
       name: 'softwares',
       icon: <DashboardIcon />,
     },
+    {
+      layout: '/admin',
+      path: '/categories',
+      name: 'categories',
+      icon: <DashboardIcon />,
+    }
   ];
 
   return (

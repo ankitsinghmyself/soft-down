@@ -15,7 +15,7 @@ import {
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import Layout from "@/components/admin/Layout";
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Software() {
   // Sample software data
@@ -37,46 +37,51 @@ export default function Software() {
     link: "",
     image: "",
   });
-useEffect(() => {
+  useEffect(() => {
     const fetchSoftwares = async () => {
-      const response = await axios.get("/api/admin/getSoftwares");
+      const response = await axios.get("/api/admin/softwares/getSoftwares");
       if (response.status === 200) {
         setSoftware(response.data.softwares);
       }
     };
     fetchSoftwares();
   }, []);
-  
+
   // Function to handle editing a software (you can implement this)
-  const handleEdit = (softwareId:any) => {
+  const handleEdit = (softwareId: any) => {
     // Implement the edit functionality here
     console.log(`Editing software with ID ${softwareId}`);
   };
 
   const handleDelete = async (softwareId: any) => {
     try {
-      const response = await axios.delete(`/api/admin/deleteSoftware/`, {
-        params: { softwareId: softwareId },
-      });
-  
+      //popup to confirm delete
+      if (!confirm("Are you sure you want to delete this software?")) {
+        return;
+      }
+
+      const response = await axios.delete(
+        `/api/admin/softwares/deleteSoftware/`,
+        {
+          params: { softwareId: softwareId },
+        }
+      );
+
       if (response.status === 200) {
         // Remove the software from the software array
-        const newSoftware = software.filter(
-          (item) => item._id !== softwareId
-        );
+        const newSoftware = software.filter((item) => item._id !== softwareId);
         setSoftware(newSoftware);
-        
-        toast.success('Software deleted successfully');
+
+        toast.success("Software deleted successfully");
       } else {
-        toast.error('Software deleted failed');
+        toast.error("Software deleted failed");
       }
     } catch (error) {
       // Handle any errors that occur during the request
-      console.error('Error deleting software:', error);
-      toast.error('An error occurred while deleting software');
+      console.error("Error deleting software:", error);
+      toast.error("An error occurred while deleting software");
     }
   };
-  
 
   // Function to handle adding a new software
   const handleAddSoftware = async () => {
@@ -92,9 +97,12 @@ useEffect(() => {
         image: newSoftware.image,
       },
     ]);
-    const response = await axios.post("/api/admin/saveSoftwares", newSoftware);
-    if(response.status === 200) {
-      toast.success('Software added successfully');
+    const response = await axios.post(
+      "/api/admin/softwares/saveSoftwares",
+      newSoftware
+    );
+    if (response.status === 200) {
+      toast.success("Software added successfully");
     } else {
       toast.error("Software added failed");
     }
@@ -119,147 +127,174 @@ useEffect(() => {
       <Layout>
         <Box>
           {/* Admin content */}
-          <h1>Softwares</h1>
-
+          {/* <h1 className="text-xl font-bold mb-2">Softwares</h1> */}
           {/* Software Card */}
-          <Card
-            p={2}
-            borderWidth="1px"
-            borderRadius="md"
-            boxShadow="base"
-            className="h-auto"
-          >
-            <Text fontSize="xl" fontWeight="bold" mb="2">
-              Add New Software
-            </Text>
-            <label htmlFor="softwareName">Software Name</label>
-            <input
-              className="p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:border-gray-600 text-black"
-              id="softwareName"
-              type="text"
-              placeholder="Software Name"
-              value={newSoftware.name}
-              onChange={(e) =>
-                setNewSoftware({ ...newSoftware, name: e.target.value })
-              }
-            />
-            <label htmlFor="softwareLink">Software Description </label>
-            <input
-              className="p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:border-gray-600 text-black"
-              id="softwareDescription"
-              type="text"
-              placeholder="Software Description"
-              value={newSoftware.description}
-              onChange={(e) =>
-                setNewSoftware({ ...newSoftware, description: e.target.value })
-              }
-            />
-                <label htmlFor="softwareLink">Software Category </label>
-            <input
-              className="p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:border-gray-600 text-black"
-              id="softwareCategory"
-              type="text"
-              placeholder="Software Category"
-              value={newSoftware.category}
-              onChange={(e) =>
-                setNewSoftware({ ...newSoftware, category: e.target.value })
-              }
-            />
-            
-
-            <label htmlFor="softwareLink">Software Link</label>
-            <input
-              className="p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:border-gray-600 text-black"
-              id="softwareLink"
-              type="text"
-              placeholder="Software Link"
-              value={newSoftware.link}
-              onChange={(e) =>
-                setNewSoftware({ ...newSoftware, link: e.target.value })
-              }
-            />
-            <label htmlFor="softwareImage">Software Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              id="softwareImage"
-              onChange={handleFileUpload}
-            />
-            <p>OR</p>
-            <label htmlFor="softwareImageUrl">Paste Image URL</label>
-            <input
-              className="p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:border-gray-600 text-black"
-              id="softwareImageUrl"
-              type="text"
-              placeholder="Image URL"
-              value={newSoftware.image}
-              onChange={(e) =>
-                setNewSoftware({ ...newSoftware, image: e.target.value })
-              }
-            />
+          <div className="w-full p-4 text-center">
+            <h2 className="text-xl font-bold mb-2">Add New Software</h2>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
+              <div className="mb-4">
+                <input
+                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
+                  id="softwareName"
+                  type="text"
+                  placeholder="Software Name"
+                  value={newSoftware.name}
+                  onChange={(e) =>
+                    setNewSoftware({ ...newSoftware, name: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
+                  id="softwareDescription"
+                  type="text"
+                  placeholder="Software Description"
+                  value={newSoftware.description}
+                  onChange={(e) =>
+                    setNewSoftware({
+                      ...newSoftware,
+                      description: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
+              <div className="mb-4">
+                <input
+                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
+                  id="softwareCategory"
+                  type="text"
+                  placeholder="Software Category"
+                  value={newSoftware.category}
+                  onChange={(e) =>
+                    setNewSoftware({ ...newSoftware, category: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
+                  id="softwareLink"
+                  type="text"
+                  placeholder="Software Link"
+                  value={newSoftware.link}
+                  onChange={(e) =>
+                    setNewSoftware({ ...newSoftware, link: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
+              <div className="mb-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="softwareImage"
+                  onChange={handleFileUpload}
+                />
+              </div>
+              <div className="mb-4">
+                <p className="mb-1">OR</p>
+                <input
+                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
+                  id="softwareImageUrl"
+                  type="text"
+                  placeholder="Image URL"
+                  value={newSoftware.image}
+                  onChange={(e) =>
+                    setNewSoftware({ ...newSoftware, image: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+          </div>
+          <div className="w-full p-4 text-center">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleAddSoftware}
             >
               Add Software
             </button>
-          </Card>
+          </div>
 
-          {/* Software Table */}
-          <Table variant="striped" colorScheme="teal">
-            <Thead>
-              <Tr>
-                <Th>Software Name</Th>
-                <Th>Image</Th>
-                <Th>Edit</Th>
-                <Th>Delete</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {software.map((item) => (
-                <Tr key={item._id}>
-                  <Td>{item.name}</Td>
-                  <Td>
-                    {item.image ? (
-                      <img
-                        // src={URL.createObjectURL(item.image)}
-                        alt={item.name}
-                        width="50"
-                        height="50"
-                      />
-                    ) : (
-                      item.link && (
+          <hr />
+          <div className="flex flex-row justify-between items-center mb-4">
+            {/* Software Table */}
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Software Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Image
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Edit
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {software.map((item) => (
+                  <tr key={item._id}>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.image ? (
                         <img
-                          src={item.link}
+                          src={item.image}
                           alt={item.name}
-                          width="50"
-                          height="50"
+                          className="w-12 h-12"
                         />
-                      )
-                    )}
-                  </Td>
-                  <Td>
-                    <IconButton
-                      aria-label="Edit"
-                      icon={<EditIcon />}
-                      colorScheme="teal"
-                      size="sm"
-                      onClick={() => handleEdit(item._id)}
-                    />
-                  </Td>
-                  <Td>
-                    <IconButton
-                      aria-label="Delete"
-                      icon={<DeleteIcon />}
-                      colorScheme="red"
-                      size="sm"
-                      onClick={() => handleDelete(item._id)}
-                    />
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
+                      ) : (
+                        item.link && (
+                          <img
+                            src={item.link}
+                            alt={item.name}
+                            className="w-12 h-12"
+                          />
+                        )
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        className="px-2 py-1 text-sm text-white bg-teal-500 hover:bg-teal-600 rounded"
+                        onClick={() => handleEdit(item._id)}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        className="px-2 py-1 text-sm text-white bg-red-500 hover:bg-red-600 rounded"
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Box>
         <Toaster />
       </Layout>

@@ -45,7 +45,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center w-full mt-8">
           <div className="flex flex-col items-center justify-center w-full md:w-1/3 p-4">
-          <a href="/windows-software"> 
+          <a href="/windows-softwares"> 
             <div className="flex flex-col items-center justify-center w-full">
               <Image
                 src="/images/windows.png"
@@ -60,7 +60,7 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center w-full md:w-2/3 p-4">
             <div className="flex flex-col md:flex-row items-center justify-center w-full">
               <div className="flex flex-col items-center justify-center w-full md:w-1/2 p-4">
-                <a href="/mac-software">
+                <a href="/mac-softwares">
                 <div className="flex flex-col items-center justify-center w-full mt-4">
                   <Image
                     src="/images/mac.png"
@@ -73,7 +73,7 @@ export default function Home() {
                 </a>
               </div>
               <div className="flex flex-col items-center justify-center w-full md:w-1/2 p-4">
-                <a href="/linux-software">
+                <a href="/linux-softwares">
                 <div className="flex flex-col items-center justify-center w-full mt-4">
                   <Image
                     src="/images/linux.png"

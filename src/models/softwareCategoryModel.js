@@ -4,14 +4,13 @@ const softwareCategorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please provide a software category name"],
+    trim: true,
+    maxLength: [50, "Software category name can not be more than 50 characters"],
+    unique: true,
   },
-  description: {
-    type: String,
-    required: [false, "Please provide a software category description"],
-  },
-  image: {
-    type: String,
-    required: [true, "Please provide a software category image"],
+  isActive: {
+    type: Boolean,
+    default: true,
   },
 });
 
