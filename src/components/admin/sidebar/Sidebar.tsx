@@ -6,11 +6,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import Content from './components/Content';
-import {
-  renderThumb,
-  renderTrack,
-  renderView,
-} from '../scrollbar/Scrollbar';
+
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -60,9 +56,6 @@ function Sidebar() {
       >
         <Scrollbars
           autoHide
-          renderTrackVertical={renderTrack}
-          renderThumbVertical={renderThumb}
-          renderView={renderView}
         >
           <Content routes={routes} />
         </Scrollbars>

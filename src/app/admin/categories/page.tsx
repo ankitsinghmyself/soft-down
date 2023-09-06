@@ -12,6 +12,11 @@ import {
   IconButton,
   Card,
   Text,
+  Center,
+  Button,
+  Divider,
+  Input,
+  VStack,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import Layout from "@/components/admin/Layout";
@@ -34,7 +39,7 @@ export default function Category() {
     const fetchCategorys = async () => {
       const response = await axios.get("/api/admin/categories/getCategory");
       if (response.status === 200) {
-        setCategory(response.data.Category);
+        setCategory(response.data.categories);
       }
     };
     fetchCategorys();
@@ -102,79 +107,52 @@ export default function Category() {
 
   return (
     <>
-      <Layout>
-        <Box>
-          {/* Admin content */}
-          {/* <h1 className="text-xl font-bold mb-2">Categorys</h1> */}
-          {/* Category Card */}
-          <div className="w-full p-4 text-center">
-            <h2 className="text-xl font-bold mb-2">Add New Category</h2>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
-              <div className="mb-4">
-                <input
-                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
-                  id="softwareName"
-                  type="text"
-                  placeholder="Category Name"
-                  value={newCategory.name}
-                  onChange={(e) =>
-                    setNewCategory({ ...newCategory, name: e.target.value })
-                  }
-                />
-              </div>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleAddCategory}
-              >
-                Add Category
-              </button>
-            </div>
-          </div>
-
-          <hr />
-          <div className="flex flex-row justify-between items-center mb-4">
-            {/* Category Table */}
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Category Name
-                  </th>
-                
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Delete
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+     <Layout>
+      <Box p={4}>
+        <Center>
+          <VStack spacing={4} align="stretch">
+            <Input
+              variant="filled"
+              placeholder="Category Name"
+              value={newCategory.name}
+              onChange={(e) => setNewCategory({ name: e.target.value })}
+            />
+            <Button
+              colorScheme="blue"
+              onClick={handleAddCategory}
+            >
+              Add Category
+            </Button>
+            <Divider my={4} />
+            <Table size="sm">
+              <Thead>
+                <Tr>
+                  <Th>Category Name</Th>
+                  <Th>Delete</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
                 {category.map((item) => (
-                  <tr key={item._id}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="px-2 py-1 text-sm text-white bg-red-500 hover:bg-red-600 rounded"
+                  <Tr key={item._id}>
+                    <Td>{item.name}</Td>
+                    <Td>
+                      <Button
+                        size="sm"
+                        colorScheme="red"
                         onClick={() => handleDelete(item._id)}
                       >
                         Delete
-                      </button>
-                    </td>
-                  </tr>
+                      </Button>
+                    </Td>
+                  </Tr>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </Box>
-        <Toaster />
-      </Layout>
+              </Tbody>
+            </Table>
+          </VStack>
+        </Center>
+      </Box>
+      <Toaster />
+    </Layout>
     </>
   );
 }

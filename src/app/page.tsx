@@ -19,6 +19,7 @@ export default function Home() {
             objectFit="cover"
             objectPosition="center"
             style={{ filter: "brightness(0.9)" }}
+            priority  
           />
         </div>
         <div className="absolute left-0 flex flex-col justify-center h-96 py-0 px-4 md:px-20 z-2 w-full md:w-1/2 -mt-20">
@@ -53,6 +54,7 @@ export default function Home() {
                   width={100}
                   height={100}
                   className=" transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:rotate-12 "
+                  priority  
                 />
                 <h1 className="text-2xl font-bold text-center mt-4">Windows</h1>
               </div>
@@ -66,9 +68,11 @@ export default function Home() {
                     <Image
                       src="/images/mac.png"
                       alt="Mac"
+                      layout="responsive"
                       width={100}
                       height={100}
                       className=" transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:rotate-12 "
+                      priority  
                     />
                     <h1 className="text-2xl font-bold text-center mt-4">Mac</h1>
                   </div>
@@ -83,6 +87,7 @@ export default function Home() {
                       width={100}
                       height={100}
                       className=" transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:rotate-12 "
+                      priority  
                     />
                     <h1 className="text-2xl font-bold text-center mt-4">
                       Linux

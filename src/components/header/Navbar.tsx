@@ -12,7 +12,7 @@ import {
   NavbarMenu,
 } from "@nextui-org/react";
 import { SoftDown } from "./SoftDownLogo.jsx";
-
+import "./navbar.css";
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
@@ -35,17 +35,15 @@ export default function App() {
     }
   }, []);
 
-  
-
   return (
-    <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+    <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} style={{ maxWidth: '1200px' }}>
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden pr-3" justify="center">
+      <NavbarContent className="sm:hidden pr-3" justify="center" >
         <NavbarBrand>
           <Link color="foreground" href="/">
             <SoftDown />
@@ -61,21 +59,6 @@ export default function App() {
             <p className="font-bold text-inherit">SoftDown</p>
           </Link>
         </NavbarBrand>
-        {/* <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem> */}
       </NavbarContent>
 
       <NavbarContent justify="end">
@@ -97,9 +80,9 @@ export default function App() {
         )}
       </NavbarContent>
 
-      <NavbarMenu>
+      <NavbarMenu >
         {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+          <NavbarMenuItem key={`${item}-${index}`} >
             <Link
               className="w-full"
               color={

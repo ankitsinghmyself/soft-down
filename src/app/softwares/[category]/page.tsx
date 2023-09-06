@@ -11,14 +11,32 @@ interface Software {
   image: string;
   description: string;
   category: string;
+  platform: string;
 }
 
 export default function Softwares({ categoryName: string }) {
   const [softwareList, setSoftwareList] = useState<Software[]>([]);
   const [originalSoftwareList, setOriginalSoftwareList] = useState<Software[]>(
     []
-  ); // Initialize originalSoftwareList
+  );
+  const [categories, setCategories] = useState([
+    {
+      name: "",
+    },
+  ]);
   const [activeCategory, setActiveCategory] = useState<string>("");
+  const [activeTab, setActiveTab] = useState("windows");
+  const filteredSoftwareList = softwareList.filter(
+    (item) =>
+      activeTab === "mac"
+        ? item.platform === "mac"
+        : activeTab === "windows"
+        ? item.platform === "windows"
+        : activeTab === "linux"
+        ? item.platform === "linux"
+        : false // Return false if the activeTab doesn't match any platform
+  );
+
   useEffect(() => {
     const fetchSoftware = async () => {
       const response = await fetch("/api/admin/softwares/getSoftwares");
@@ -28,6 +46,14 @@ export default function Softwares({ categoryName: string }) {
       setOriginalSoftwareList(softwares); // Store the original unfiltered list
     };
     fetchSoftware();
+
+    const fetchCategories = async () => {
+      const response = await fetch("/api/admin/categories/getCategory");
+      const data = await response.json();
+      const rescategories = data.categories;
+      setCategories(rescategories);
+    };
+    fetchCategories();
   }, []);
 
   const filterList = (category: string) => {
@@ -44,104 +70,169 @@ export default function Softwares({ categoryName: string }) {
   };
   const path = usePathname();
 
-  const routeSegments = path.split("/").filter((segment) => segment);
-
   return (
     <div>
       <Navbar />
-
-      <div className="flex">
-        <div className="w-3/12 p-4 bg-gray-200">
-          <h1 className="text-2xl font-semibold">Filter</h1>
-          <ul className="mt-4">
-            <li>
-              <a
-                className={activeCategory === "Browsers" ? "text-blue-600" : ""}
-                onClick={() => filterList("Browsers")}
-              >
-                Browsers
-              </a>
-            </li>
-            <li>
-              <a
-                className={
-                  activeCategory === "Antivirus" ? "text-blue-600" : ""
-                }
-                onClick={() => filterList("Antivirus")}
-              >
-                Antivirus
-              </a>
-            </li>
-            {/* Add more category links here */}
-          </ul>
-        </div>
-        <div className="w-9/12 p-4">
-          {/* <div className="bg-gray-300 p-2 mb-10">
-            <div
-              className=" flex
-              justify-left items-center text-sm text-gray-600 font-light 
-              "
-            >
-              <span>
-                <Link href="/">
-                  <p className="text-blue-600">Home</p>
+      <div className="flex items-center justify-center">
+        <div className=" flex flex-col bg-background/70 gap-4 px-20 w-full max-w-screen-xl">
+          <div className="  items-center relative">
+            <div className="flex flex-col items-start gap-[8.4px]">
+              <div className="relative w-fit  font-bold text-neutral-800 text-[22px] tracking-[0] leading-[32px] whitespace-nowrap">
+                Best Browsers Software
+              </div>
+              <div className="flex gap-[24px]">
+                <button
+                  className="tab-button"
+                  onClick={() => setActiveTab("windows")}
+                  style={{
+                    backgroundColor:
+                      activeTab === "windows" ? "#2a874b" : "transparent",
+                    color: activeTab === "windows" ? "#fff" : "#2a874b",
+                  }}
+                >
+                  Windows
+                </button>
+                <button
+                  className="tab-button"
+                  onClick={() => setActiveTab("mac")}
+                  style={{
+                    backgroundColor:
+                      activeTab === "mac" ? "#2a874b" : "transparent",
+                    color: activeTab === "mac" ? "#fff" : "#2a874b",
+                  }}
+                >
+                  Mac
+                </button>
+                <button
+                  className="tab-button"
+                  onClick={() => setActiveTab("linux")}
+                  style={{
+                    backgroundColor:
+                      activeTab === "linux" ? "#2a874b" : "transparent",
+                    color: activeTab === "linux" ? "#fff" : "#2a874b",
+                  }}
+                >
+                  Linax
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-[16px] mt-4">
+              {filteredSoftwareList.map((item, index) => (
+                 <Link href={`/softwareDetails/${item._id}`}> 
+                <div key={index} className="relative h-[180px] bg-[#e4dfdfc7]">
+                  <div className="w-[274px] gap-[16px] absolute top-[16px] left-[16px] flex items-start">
+                    <div className="relative max-w-[48px] w-[48px] h-[48px] bg-[url(https://play-lh.googleusercontent.com/KwUBNPbMTk9jDXYS2AeX3illtVRTkrKVh5xR1Mg4WHd0CG2tV4mrh1z3kXi5z_warlk)] bg-cover bg-[50%_50%]" />
+                    <div className="flex-col gap-[4.4px] pl-0  py-0 relative flex-1 grow flex items-start">
+                      <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',_Helvetica] font-bold text-neutral-800 text-[18px] tracking-[0] leading-[28px] whitespace-nowrap">
+                        {item.name}
+                      </div>
+                      <div className="relative w-fit [font-family:'Inter-Bold',_Helvetica] font-bold text-[#2a874b] text-[12px] tracking-[2.00px] leading-[16px] whitespace-nowrap">
+                        FREE
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-col w-[274px] pt-0 pb-[24px] px-0 absolute top-[80px] left-[16px] flex items-start">
+                    <div className="flex-col pl-0 pr-[28px] py-0 relative self-stretch w-full flex-[0_0_auto] flex items-start">
+                      <p className="relative w-fit mt-[-1.00px] [font-family:'Inter-Regular',_Helvetica] font-normal text-[#666666] text-[12px] tracking-[0] leading-[20px]">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="absolute w-[112px] h-[52px] top-[-15px] left-[-2304px] [font-family:'Inter-Regular',_Helvetica] font-normal text-transparent text-[16px] tracking-[0] leading-[26px]">
+                    {item.name}
+                  </div>
+                </div>
                 </Link>
-              </span>
-              {routeSegments.map((segment, index) => (
-                <span key={segment}>
-                  {" > "}
-                  {index === routeSegments.length - 1 ? (
-                    <span>{segment}</span>
-                  ) : (
-                    <Link href={`/${segment}`}>
-                      <p className="text-blue-600">{segment}</p>
-                    </Link>
-                  )}
-                </span>
               ))}
             </div>
-          </div> */}
-          <ul className="space-y-6">
-            {softwareList.map((software) => (
-              <li
-                key={software._id}
-                className="flex items-center p-4 rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 transition-transform duration-300 ease-in-out"
-              >
-                <a
-                  href={software.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-1 flex items-center space-x-4"
-                >
-                  <div className="w-20 h-20 relative">
-                    <img
-                      src={software.image}
-                      alt={software.name}
-                      className="w-full h-full rounded-lg "
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <h2 className="text-xl font-semibold text-gray-800">
-                      {software.name}
-                    </h2>
-                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                      {software.description}
-                    </p>
-                  </div>
-                </a>
-                <div className="p-4 text-center">
-                  <a
-                    href={software.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 ease-in-out"
-                  >
-                    Download
-                  </a>
+            <div className=" items-center justify-center flex flex-col bg-background/70 gap-4 px-20 w-full max-w-screen-xl">
+              <div className="text-center flex w-[620px] h-[48px] items-center justify-center  border border-solid border-[#2a874b]">
+                <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',_Helvetica] font-bold text-[#2a874b] text-[13px] text-center tracking-[0] leading-[33.6px] whitespace-nowrap">
+                  SEE ALL
                 </div>
-              </li>
-            ))}
-          </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-center">
+        <div className=" flex flex-col bg-background/70 gap-4 px-20 w-full max-w-screen-xl">
+          <div className="  items-center relative">
+            <div className="flex flex-col items-start gap-[8.4px]">
+              <div className="relative w-fit  font-bold text-neutral-800 text-[22px] tracking-[0] leading-[32px] whitespace-nowrap">
+                Best Browsers Software
+              </div>
+              <div className="flex gap-[24px]">
+                <button
+                  className="tab-button"
+                  onClick={() => setActiveTab("windows")}
+                  style={{
+                    backgroundColor:
+                      activeTab === "windows" ? "#2a874b" : "transparent",
+                    color: activeTab === "windows" ? "#fff" : "#2a874b",
+                  }}
+                >
+                  Windows
+                </button>
+                <button
+                  className="tab-button"
+                  onClick={() => setActiveTab("mac")}
+                  style={{
+                    backgroundColor:
+                      activeTab === "mac" ? "#2a874b" : "transparent",
+                    color: activeTab === "mac" ? "#fff" : "#2a874b",
+                  }}
+                >
+                  Mac
+                </button>
+                <button
+                  className="tab-button"
+                  onClick={() => setActiveTab("linux")}
+                  style={{
+                    backgroundColor:
+                      activeTab === "linux" ? "#2a874b" : "transparent",
+                    color: activeTab === "linux" ? "#fff" : "#2a874b",
+                  }}
+                >
+                  Linax
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-[16px] mt-4">
+              {filteredSoftwareList.map((item, index) => (
+                <div key={index} className="relative h-[180px] bg-[#e4dfdfc7]">
+                  <div className="w-[274px] gap-[16px] absolute top-[16px] left-[16px] flex items-start">
+                    <div className="relative max-w-[48px] w-[48px] h-[48px] bg-[url(https://play-lh.googleusercontent.com/KwUBNPbMTk9jDXYS2AeX3illtVRTkrKVh5xR1Mg4WHd0CG2tV4mrh1z3kXi5z_warlk)] bg-cover bg-[50%_50%]" />
+                    <div className="flex-col gap-[4.4px] pl-0  py-0 relative flex-1 grow flex items-start">
+                      <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',_Helvetica] font-bold text-neutral-800 text-[18px] tracking-[0] leading-[28px] whitespace-nowrap">
+                        {item.name}
+                      </div>
+                      <div className="relative w-fit [font-family:'Inter-Bold',_Helvetica] font-bold text-[#2a874b] text-[12px] tracking-[2.00px] leading-[16px] whitespace-nowrap">
+                        FREE
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-col w-[274px] pt-0 pb-[24px] px-0 absolute top-[80px] left-[16px] flex items-start">
+                    <div className="flex-col pl-0 pr-[28px] py-0 relative self-stretch w-full flex-[0_0_auto] flex items-start">
+                      <p className="relative w-fit mt-[-1.00px] [font-family:'Inter-Regular',_Helvetica] font-normal text-[#666666] text-[12px] tracking-[0] leading-[20px]">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="absolute w-[112px] h-[52px] top-[-15px] left-[-2304px] [font-family:'Inter-Regular',_Helvetica] font-normal text-transparent text-[16px] tracking-[0] leading-[26px]">
+                    {item.name}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className=" items-center justify-center flex flex-col bg-background/70 gap-4 px-20 w-full max-w-screen-xl">
+              <div className="text-center flex w-[620px] h-[48px] items-center justify-center  border border-solid border-[#2a874b]">
+                <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',_Helvetica] font-bold text-[#2a874b] text-[13px] text-center tracking-[0] leading-[33.6px] whitespace-nowrap">
+                  SEE ALL
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />

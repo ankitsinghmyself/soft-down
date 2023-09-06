@@ -12,6 +12,13 @@ import {
   Card,
   Text,
   Select,
+  Center,
+  VStack,
+  Flex,
+  Input,
+  Button,
+  Divider,
+  Image,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import Layout from "@/components/admin/Layout";
@@ -133,41 +140,29 @@ export default function Software() {
     });
   };
 
-  // Function to handle file upload
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    setNewSoftware({ ...newSoftware, image: file });
-  };
-
   return (
     <>
       <Layout>
-        <Box>
-          {/* Admin content */}
-          {/* <h1 className="text-xl font-bold mb-2">Softwares</h1> */}
-          {/* Software Card */}
-          <div className="w-full p-4 text-center">
-            <h2 className="text-xl font-bold mb-2">Add New Software</h2>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
-              <div className="mb-4">
-                <input
-                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
-                  id="softwareName"
-                  type="text"
+      <Box p={4}>
+        <Center>
+          <VStack spacing={4} align="stretch">
+            <Text fontSize="2xl" fontWeight="bold">
+              Add New Software
+            </Text>
+            <Flex flexWrap="wrap" justifyContent="space-between">
+              <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                <Input
+                  variant="filled"
                   placeholder="Software Name"
                   value={newSoftware.name}
                   onChange={(e) =>
                     setNewSoftware({ ...newSoftware, name: e.target.value })
                   }
                 />
-              </div>
-              <div className="mb-4">
-                <input
-                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
-                  id="softwareDescription"
-                  type="text"
+              </Box>
+              <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                <Input
+                  variant="filled"
                   placeholder="Software Description"
                   value={newSoftware.description}
                   onChange={(e) =>
@@ -177,11 +172,10 @@ export default function Software() {
                     })
                   }
                 />
-              </div>
-            </div>
-            <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
-              <div className="mb-4">
+              </Box>
+              <Box width={{ base: "100%", md: "30%" }} mb={4}>
                 <Select
+                  variant="filled"
                   placeholder="Select a Category"
                   value={newSoftware.category}
                   onChange={(e) =>
@@ -194,130 +188,92 @@ export default function Software() {
                     </option>
                   ))}
                 </Select>
-              </div>
-              <div className="mb-4">
-                <input
-                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
-                  id="softwareLink"
-                  type="text"
+              </Box>
+              <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                <Input
+                  variant="filled"
                   placeholder="Software Link"
                   value={newSoftware.link}
                   onChange={(e) =>
                     setNewSoftware({ ...newSoftware, link: e.target.value })
                   }
                 />
-              </div>
-            </div>
-            <div className="w-full md:w-1/3 p-4 border border-gray-300 rounded-lg shadow-md">
-              <div className="mb-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="softwareImage"
-                  onChange={handleFileUpload}
-                />
-              </div>
-              <div className="mb-4">
-                <p className="mb-1">OR</p>
-                <input
-                  className="p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 text-black"
-                  id="softwareImageUrl"
-                  type="text"
+              </Box>
+              <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                <Input
+                  variant="filled"
                   placeholder="Image URL"
                   value={newSoftware.image}
                   onChange={(e) =>
                     setNewSoftware({ ...newSoftware, image: e.target.value })
                   }
                 />
-              </div>
-            </div>
-          </div>
-          <div className="w-full p-4 text-center">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handleAddSoftware}
-            >
-              Add Software
-            </button>
-          </div>
-
-          <hr />
-          <div className="flex flex-row justify-between items-center mb-4">
-            {/* Software Table */}
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Software Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Image
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Edit
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Delete
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {software.map((item) => (
-                  <tr key={item._id}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item.image ? (
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-12 h-12"
+              </Box>
+              <Box width={{ base: "100%", md: "30%" }}>
+                <Button
+                  colorScheme="blue"
+                  onClick={handleAddSoftware}
+                >
+                  Add Software
+                </Button>
+              </Box>
+            </Flex>
+            <Divider my={4} />
+            <Table size="sm">
+              <Thead>
+                <Tr>
+                  <Th>Software Name</Th>
+                  <Th>Image</Th>
+                  <Th>Edit</Th>
+                  <Th>Delete</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {software.length === 0 ? (
+                  <Tr>
+                    <Td colSpan={4} textAlign="center">
+                      No software found
+                    </Td>
+                  </Tr>
+                ) : (
+                  software.map((item) => (
+                    <Tr key={item._id}>
+                      <Td>{item.name}</Td>
+                      <Td>
+                        {item.image ? (
+                          <Image src={item.image} alt={item.name} boxSize="12" />
+                        ) : item.link ? (
+                          <Image src={item.link} alt={item.name} boxSize="12" />
+                        ) : null}
+                      </Td>
+                      <Td>
+                        <IconButton
+                          size="sm"
+                          colorScheme="teal"
+                          aria-label="Edit"
+                          icon={<EditIcon />}
+                          onClick={() => handleEdit(item._id)}
                         />
-                      ) : (
-                        item.link && (
-                          <img
-                            src={item.link}
-                            alt={item.name}
-                            className="w-12 h-12"
-                          />
-                        )
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="px-2 py-1 text-sm text-white bg-teal-500 hover:bg-teal-600 rounded"
-                        onClick={() => handleEdit(item._id)}
-                      >
-                        Edit
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="px-2 py-1 text-sm text-white bg-red-500 hover:bg-red-600 rounded"
-                        onClick={() => handleDelete(item._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Box>
-        <Toaster />
-      </Layout>
+                      </Td>
+                      <Td>
+                        <IconButton
+                          size="sm"
+                          colorScheme="red"
+                          aria-label="Delete"
+                          icon={<DeleteIcon />}
+                          onClick={() => handleDelete(item._id)}
+                        />
+                      </Td>
+                    </Tr>
+                  ))
+                )}
+              </Tbody>
+            </Table>
+          </VStack>
+        </Center>
+      </Box>
+      <Toaster />
+    </Layout>
     </>
   );
 }

@@ -17,11 +17,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide a software link"],
     },
+  
     image: {
         type: String,
-        required: [true, "Please provide a software image"],
     },
-    
+    platform:{
+        type: String,
+    }
 })
 
 const Software = mongoose.models.softwares || mongoose.model("softwares", userSchema);
