@@ -1,39 +1,21 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
   Link,
-  Button,
   NavbarMenuToggle,
   NavbarMenuItem,
   NavbarMenu,
 } from "@nextui-org/react";
 import { SoftDown } from "./SoftDownLogo.jsx";
 import "./navbar.css";
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
   const menuItems = [
-    "Profile",
-    // "Dashboard",
-    // "Activity",
-    // "Analytics",
-    // "System",
-    // "Deployments",
-    // "My Settings",
-    // "Team Settings",
-    // "Help & Feedback",
+    "Help & Feedback",
   ];
-  useEffect(() => {
-    if (localStorage.getItem("isLogin") === "true") {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, []);
 
   return (
     <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} style={{ maxWidth: '1200px' }}>
@@ -61,26 +43,7 @@ export default function App() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent justify="end">
-        {!isLogin ? (
-          <>
-            <NavbarItem className="hidden lg:flex">
-              <Link href="/login">Login</Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Button as={Link} color="warning" href="/signup" variant="flat">
-                Sign Up
-              </Button>
-            </NavbarItem>
-          </>
-        ) : (
-          <NavbarItem className="hidden lg:flex">
-            <Link href="/profile">Profile</Link>
-          </NavbarItem>
-        )}
-      </NavbarContent>
-
-      <NavbarMenu >
+      <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`} >
             <Link
@@ -92,13 +55,7 @@ export default function App() {
                   ? "danger"
                   : "foreground"
               }
-              href={
-                index === menuItems.length - 1
-                  ? isLogin
-                    ? "/login"
-                    : "/logout"
-                  : "#"
-              }
+              href="#"
               size="lg"
             >
               {item}
