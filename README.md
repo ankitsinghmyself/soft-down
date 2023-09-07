@@ -11,6 +11,9 @@ yarn dev
 # or
 pnpm dev
 ```
+/admin
+/profile
+/login
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
