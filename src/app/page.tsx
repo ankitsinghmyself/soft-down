@@ -82,12 +82,12 @@ export default function Home() {
     <NextUIProvider>
       <Navbar />
 
-      <main className="flex flex-col items-center justify-center  px-4 sm:px-8 lg:px-16">
-        <div className="w-full max-w-screen-xl bg-background/70 py-4 px-4 sm:py-8 sm:px-8">
+      <main className="flex items-center justify-center">
+        <div className="w-full max-w-screen-xl bg-background/70 py-4 px-4 sm:py-8 sm:px-20 ">
           <div className="items-center relative">
             <div className="flex flex-col items-start gap-4 sm:gap-8">
               <div className="font-bold text-neutral-800 text-2xl sm:text-3xl lg:text-4xl tracking-normal leading-9 whitespace-nowrap">
-                Best Software
+                Best Browsers Software
               </div>
               <div className="flex gap-4 sm:gap-8 pl-1">
                 <button
@@ -122,31 +122,33 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
+            <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-8">
               {filteredSoftwareList.map((item, index) => (
-                <Link href={`/softwareDetails/${item._id}`} key={index}>
-                  <div className="relative bg-white shadow-lg rounded-lg overflow-hidden">
-                    <div className="relative flex">
-                      <div
-                        className="w-20 h-20 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${item.image})` }}
-                      />
-                      <div className="bottom-0 pl-4  left-0 right-0">
-                        <div className="text-sm font-semibold text-neutral-600">
-                          {item.name}
-                        </div>
-                        <div className="text-green-500 text-sm font-semibold">
-                          FREE
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <div className="text-sm text-gray-600">
-                        {item.description}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+             <Link href={`/softwareDetails/${item._id}`} key={index}>
+             <div className="relative p-5 bg-white shadow-lg rounded-lg 
+             overflow-hidden min-h-[180px]">
+               <div className="relative flex">
+                 <div
+                   className="w-20 h-20 bg-cover bg-center"
+                   style={{ backgroundImage: `url(${item.image})` }}
+                 />
+                 <div className="bottom-0 pl-4  left-0 right-0">
+                   <div className="text-sm font-semibold text-neutral-600">
+                     {item.name}
+                   </div>
+                   <div className="text-green-500 text-sm font-semibold">
+                     FREE
+                   </div>
+                 </div>
+               </div>
+               <div className="pt-4">
+                 <div className="text-sm text-gray-600 overflow-hidden text-center " style={{ maxHeight: '4rem', WebkitLineClamp: 2, display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+                   {item.description}
+                 </div>
+               </div>
+             </div>
+           </Link>
+           
               ))}
             </div>
             {filteredSoftwareList.length > 0 && (
