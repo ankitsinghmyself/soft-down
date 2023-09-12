@@ -22,7 +22,7 @@ export default function LoginPage() {
       const response = await axios.post("/api/users/login", user);
       toast.success("Login success");
       if (response.data.isAdmin === true) {
-        router.push("/admin");
+        router.push("/admin/dashboard");
       } else {
         router.push("/profile");
       }

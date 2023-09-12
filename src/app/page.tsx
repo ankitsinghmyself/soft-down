@@ -6,6 +6,8 @@ import Footer from "@/components/footer/Footer";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+
 interface Software {
   _id: string;
   name: string;
@@ -79,7 +81,7 @@ export default function Home() {
   const path = usePathname();
 
   return (
-    <NextUIProvider>
+    <ChakraProvider>
       <Navbar />
 
       <main className="flex items-center justify-center">
@@ -168,6 +170,6 @@ export default function Home() {
       </main>
 
       <Footer />
-    </NextUIProvider>
+    </ChakraProvider>
   );
 }

@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import Sidebar from "../../components/admin/sidebar/Sidebar";
 import Layout from "@/components/admin/Layout";
 import MiniStatistics from "@/components/card/MiniStatistics";
 import IconBox from "@/components/icons/IconBox";
@@ -33,7 +32,6 @@ export default function AdminPage() {
 
   return (
     <>
-      {isAdmin ? (
         <>
           <Layout>
             <div className="pt-80px md:pt-130px xl:pt-80px">
@@ -68,12 +66,6 @@ export default function AdminPage() {
             </div>
           </Layout>
         </>
-      ) : (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-          <h1>Page not found</h1>
-          <hr />
-        </div>
-      )}
     </>
   );
 }

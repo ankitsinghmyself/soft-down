@@ -44,5 +44,8 @@ export const config = {
     '/verifyEmail',
     // Add more paths that require admin access here
     '/admin',
+    '/admin/dashboard',
+    '/admin/softwares',
+    '/admin/categories',
   ],
 };

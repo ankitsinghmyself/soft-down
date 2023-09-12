@@ -24,19 +24,11 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import Layout from "@/components/admin/Layout";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import Pagination from "../../../helpers/pagination";
 
 export default function Software() {
   // Sample software data
-  const [software, setSoftware] = useState([
-    {
-      _id: "",
-      name: "",
-      description: "",
-      category: "",
-      link: "",
-      image: "",
-    },
-  ]);
+  const [allSoftware, setAllSoftware] = useState([]);
   const [categories, setCategories] = useState([
     {
       _id: "",
@@ -51,11 +43,20 @@ export default function Software() {
     link: "",
     image: "",
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(allSoftware.length / itemsPerPage);
+  const paginateSoftware = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return allSoftware.slice(startIndex, endIndex);
+  };
+
   useEffect(() => {
     const fetchSoftwares = async () => {
       const response = await axios.get("/api/admin/softwares/getSoftwares");
       if (response.status === 200) {
-        setSoftware(response.data.softwares);
+        setAllSoftware(response.data.softwares);
       }
     };
     fetchSoftwares();
@@ -139,111 +140,117 @@ export default function Software() {
       image: "",
     });
   };
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
       <Layout>
-      <Box p={4}>
-        <Center>
-          <VStack spacing={4} align="stretch">
-            <Text fontSize="2xl" fontWeight="bold">
-              Add New Software
-            </Text>
-            <Flex flexWrap="wrap" justifyContent="space-between">
-              <Box width={{ base: "100%", md: "30%" }} mb={4}>
-                <Input
-                  variant="filled"
-                  placeholder="Software Name"
-                  value={newSoftware.name}
-                  onChange={(e) =>
-                    setNewSoftware({ ...newSoftware, name: e.target.value })
-                  }
-                />
-              </Box>
-              <Box width={{ base: "100%", md: "30%" }} mb={4}>
-                <Input
-                  variant="filled"
-                  placeholder="Software Description"
-                  value={newSoftware.description}
-                  onChange={(e) =>
-                    setNewSoftware({
-                      ...newSoftware,
-                      description: e.target.value,
-                    })
-                  }
-                />
-              </Box>
-              <Box width={{ base: "100%", md: "30%" }} mb={4}>
-                <Select
-                  variant="filled"
-                  placeholder="Select a Category"
-                  value={newSoftware.category}
-                  onChange={(e) =>
-                    setNewSoftware({ ...newSoftware, category: e.target.value })
-                  }
-                >
-                  {categories.map((category) => (
-                    <option key={category._id} value={category.name}>
-                      {category.name}
-                    </option>
-                  ))}
-                </Select>
-              </Box>
-              <Box width={{ base: "100%", md: "30%" }} mb={4}>
-                <Input
-                  variant="filled"
-                  placeholder="Software Link"
-                  value={newSoftware.link}
-                  onChange={(e) =>
-                    setNewSoftware({ ...newSoftware, link: e.target.value })
-                  }
-                />
-              </Box>
-              <Box width={{ base: "100%", md: "30%" }} mb={4}>
-                <Input
-                  variant="filled"
-                  placeholder="Image URL"
-                  value={newSoftware.image}
-                  onChange={(e) =>
-                    setNewSoftware({ ...newSoftware, image: e.target.value })
-                  }
-                />
-              </Box>
-              <Box width={{ base: "100%", md: "30%" }}>
-                <Button
-                  colorScheme="blue"
-                  onClick={handleAddSoftware}
-                >
-                  Add Software
-                </Button>
-              </Box>
-            </Flex>
-            <Divider my={4} />
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <Th>Software Name</Th>
-                  <Th>Image</Th>
-                  <Th>Edit</Th>
-                  <Th>Delete</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {software.length === 0 ? (
+        <Box p={4}>
+          <Center>
+            <VStack spacing={4} align="stretch">
+              <Text fontSize="2xl" fontWeight="bold">
+                Add New Software
+              </Text>
+              <Flex flexWrap="wrap" justifyContent="space-between">
+                <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                  <Input
+                    variant="filled"
+                    placeholder="Software Name"
+                    value={newSoftware.name}
+                    onChange={(e) =>
+                      setNewSoftware({ ...newSoftware, name: e.target.value })
+                    }
+                  />
+                </Box>
+                <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                  <Input
+                    variant="filled"
+                    placeholder="Software Description"
+                    value={newSoftware.description}
+                    onChange={(e) =>
+                      setNewSoftware({
+                        ...newSoftware,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+                <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                  <Select
+                    variant="filled"
+                    placeholder="Select a Category"
+                    value={newSoftware.category}
+                    onChange={(e) =>
+                      setNewSoftware({
+                        ...newSoftware,
+                        category: e.target.value,
+                      })
+                    }
+                  >
+                    {categories.map((category) => (
+                      <option key={category._id} value={category.name}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Box>
+                <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                  <Input
+                    variant="filled"
+                    placeholder="Software Link"
+                    value={newSoftware.link}
+                    onChange={(e) =>
+                      setNewSoftware({ ...newSoftware, link: e.target.value })
+                    }
+                  />
+                </Box>
+                <Box width={{ base: "100%", md: "30%" }} mb={4}>
+                  <Input
+                    variant="filled"
+                    placeholder="Image URL"
+                    value={newSoftware.image}
+                    onChange={(e) =>
+                      setNewSoftware({ ...newSoftware, image: e.target.value })
+                    }
+                  />
+                </Box>
+                <Box width={{ base: "100%", md: "30%" }}>
+                  <Button colorScheme="blue" onClick={handleAddSoftware}>
+                    Add Software
+                  </Button>
+                </Box>
+              </Flex>
+              <Divider my={4} />
+              <Table size="sm">
+                <Thead>
                   <Tr>
-                    <Td colSpan={4} textAlign="center">
-                      No software found
-                    </Td>
+                    <Th>Software Name</Th>
+                    <Th>Image</Th>
+                    <Th>Edit</Th>
+                    <Th>Delete</Th>
                   </Tr>
-                ) : (
-                  software.map((item) => (
+                </Thead>
+                <Tbody>
+                  {paginateSoftware().map((item) => (
                     <Tr key={item._id}>
                       <Td>{item.name}</Td>
                       <Td>
                         {item.image ? (
-                          <Image src={item.image} alt={item.name} boxSize="12" />
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            boxSize="12"
+                            loading="lazy"
+                          />
                         ) : item.link ? (
-                          <Image src={item.link} alt={item.name} boxSize="12" />
+                          <Image
+                            src={item.link}
+                            alt={item.name}
+                            boxSize="12"
+                            loading="lazy"
+                          />
                         ) : null}
                       </Td>
                       <Td>
@@ -265,15 +272,21 @@ export default function Software() {
                         />
                       </Td>
                     </Tr>
-                  ))
+                  ))}
+                </Tbody>
+                {totalPages > 1 && (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
                 )}
-              </Tbody>
-            </Table>
-          </VStack>
-        </Center>
-      </Box>
-      <Toaster />
-    </Layout>
+              </Table>
+            </VStack>
+          </Center>
+        </Box>
+        <Toaster />
+      </Layout>
     </>
   );
 }
