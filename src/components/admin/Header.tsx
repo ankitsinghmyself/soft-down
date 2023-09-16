@@ -9,25 +9,99 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
-import { lightGreen } from "@mui/material/colors";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 
 const Header: React.FC = () => {
   const pathname = usePathname();
+  const toTitleCase = (str: any) => {
+    return str.replace(/\w\S*/g, function (txt: any) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
+  const router = useRouter();
+  const [userData, setUserData] = useState<any>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  useEffect(() => {
+    getUserDetails();
+  }, []);
 
-
+  const getUserDetails = async () => {
+    try {
+      const res = await axios.get("/api/users/me");
+      setUserData(res.data.user);
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+  const handleLogout = async () => {
+    try {
+      await axios.get("/api/users/logout");
+      toast.success("Logout successful");
+      router.push("/login");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
   return (
-    <Flex bg="lightgray" p="4" boxShadow="2xl"  justify="space-between"  align="center" >
-      <Heading size="md">Home</Heading>
-      <Heading size="md">{pathname}</Heading>
-      <Spacer />
-      <Flex alignItems="center">
-        {/* {pathname} */}
-      </Flex>
+    <>
+  <Flex
+    rounded="md"
+    justify="space-between"
+    className="bg-blue-400 text-white items-center p-4"
+  >
+    <Flex>
+      <a href="/">
+        Home <ChevronRightIcon color="gray.500" />
+      </a>
+      {pathname && (
+        <>
+          <Breadcrumb
+            spacing="8px"
+            separator={<ChevronRightIcon color="gray.500" />}
+          >
+            <BreadcrumbItem>
+              <BreadcrumbLink href={pathname} className="">
+                {toTitleCase(pathname.split("/").pop())}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </>
+      )}
     </Flex>
+
+    <Menu>
+      <MenuButton className="flex">
+        {userData && (
+          <Flex alignItems="center">
+            <Avatar
+              size="xs"
+              name={userData.userName}
+              src={userData.userAvatarUrl}
+              marginRight="2"
+              borderRadius="full"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              cursor="pointer"
+              className="w-[32px]"
+            />
+            <p className="mt-1">{userData.userName.toUpperCase()}</p>
+          </Flex>
+        )}
+      </MenuButton>
+      <MenuList bg={"lightgray"} p={"10"} borderRadius={"5px"}>
+        <MenuItem onClick={() => setIsMenuOpen(false)}>Profile</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </MenuList>
+    </Menu>
+  </Flex>
+</>
+
   );
 };
 

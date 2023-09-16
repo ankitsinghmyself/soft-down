@@ -1,6 +1,22 @@
 import React from "react";
+import {
+  Box,
+  Text,
+  Button,
+  HStack,
+} from "@chakra-ui/react";
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (pageNumber: number) => void;
+}
+
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= totalPages; i++) {
@@ -8,23 +24,20 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   }
 
   return (
-    <nav>
-      <ul className="pagination">
+    <Box as="nav">
+      <HStack spacing={2} className="pagination">
         {pageNumbers.map((pageNumber) => (
-          <li
+          <Button
             key={pageNumber}
-            className={`page-item ${pageNumber === currentPage ? "active" : ""}`}
+            size="sm"
+            colorScheme={pageNumber === currentPage ? "teal" : "gray"}
+            onClick={() => onPageChange(pageNumber)}
           >
-            <button
-              className="page-link"
-              onClick={() => onPageChange(pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          </li>
+            {pageNumber}
+          </Button>
         ))}
-      </ul>
-    </nav>
+      </HStack>
+    </Box>
   );
 };
 

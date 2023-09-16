@@ -1,12 +1,19 @@
 "use client";
-import Image from "next/image";
-import { NextUIProvider } from "@nextui-org/react";
-import Navbar from "@/components/header/Navbar";
-import Footer from "@/components/footer/Footer";
+import Navbar from "@/components/frontend/header/Navbar";
+import Footer from "@/components/frontend/footer/Footer";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript, CSSReset, extendTheme } from "@chakra-ui/react";
+const theme = extendTheme({
+  colors: {
+    brand: {
+      100: "#f7fafc",
+      // ...
+      900: "#1a202c",
+    },
+  },
+})
 
 interface Software {
   _id: string;
@@ -81,95 +88,107 @@ export default function Home() {
   const path = usePathname();
 
   return (
-    <ChakraProvider>
-      <Navbar />
-
-      <main className="flex items-center justify-center">
-        <div className="w-full max-w-screen-xl bg-background/70 py-4 px-4 sm:py-8 sm:px-20 ">
-          <div className="items-center relative">
-            <div className="flex flex-col items-start gap-4 sm:gap-8">
-              <div className="font-bold text-neutral-800 text-2xl sm:text-3xl lg:text-4xl tracking-normal leading-9 whitespace-nowrap">
-                Best Browsers Software
-              </div>
-              <div className="flex gap-4 sm:gap-8 pl-1">
-                <button
-                  className={`tab-button pb-2 ${
-                    activeTab === "windows"
-                      ? "border-b-2 border-b-green-800   text-green-800"
-                      : "bg-transparent "
-                  }`}
-                  onClick={() => setActiveTab("windows")}
-                >
-                  Windows
-                </button>
-                <button
-                  className={`tab-button pb-2 ${
-                    activeTab === "mac"
-                      ? "border-b-2 border-b-green-800   text-green-800"
-                      : "bg-transparent "
-                  }`}
-                  onClick={() => setActiveTab("mac")}
-                >
-                  Mac
-                </button>
-                <button
-                  className={`tab-button pb-2 ${
-                    activeTab === "linux"
-                      ? "border-b-2 border-b-green-800  text-green-800 "
-                      : "bg-transparent "
-                  }`}
-                  onClick={() => setActiveTab("linux")}
-                >
-                  Linux
-                </button>
-              </div>
-            </div>
-            <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-8">
-              {filteredSoftwareList.map((item, index) => (
-             <Link href={`/softwareDetails/${item._id}`} key={index}>
-             <div className="relative p-5 bg-white shadow-lg rounded-lg 
-             overflow-hidden min-h-[180px]">
-               <div className="relative flex">
-                 <div
-                   className="w-20 h-20 bg-cover bg-center"
-                   style={{ backgroundImage: `url(${item.image})` }}
-                 />
-                 <div className="bottom-0 pl-4  left-0 right-0">
-                   <div className="text-sm font-semibold text-neutral-600">
-                     {item.name}
-                   </div>
-                   <div className="text-green-500 text-sm font-semibold">
-                     FREE
-                   </div>
-                 </div>
-               </div>
-               <div className="pt-4">
-                 <div className="text-sm text-gray-600 overflow-hidden text-center " style={{ maxHeight: '4rem', WebkitLineClamp: 2, display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
-                   {item.description}
-                 </div>
-               </div>
-             </div>
-           </Link>
-           
-              ))}
-            </div>
-            {filteredSoftwareList.length > 0 && (
-              <div className="pt-5 pb-5 items-center justify-center flex flex-col gap-4">
-                <div className="text-center w-64 h-12 border border-solid border-green-500">
-                  <div
-                    className="font-bold text-green-500 text-sm text-center leading-10 cursor-pointer"
-                    onClick={handleSeeAllClick}
+    <>
+      <ChakraProvider theme={theme}>
+      <CSSReset />
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <Navbar />
+        <main className="flex items-center justify-center">
+          <div className="w-full max-w-screen-xl bg-background/70 py-4 px-4 sm:py-8 sm:px-20 ">
+            <div className="items-center relative">
+              <div className="flex flex-col items-start gap-4 sm:gap-8">
+                <div className="font-bold text-neutral-800 text-2xl sm:text-3xl lg:text-4xl tracking-normal leading-9 whitespace-nowrap">
+                  Best Browsers Software
+                </div>
+                <div className="flex gap-4 sm:gap-8 pl-1">
+                  <button
+                    className={`tab-button pb-2 ${
+                      activeTab === "windows"
+                        ? "border-b-2 border-b-green-800   text-green-800"
+                        : "bg-transparent "
+                    }`}
+                    onClick={() => setActiveTab("windows")}
                   >
-                    SEE ALL
-                  </div>
+                    Windows
+                  </button>
+                  <button
+                    className={`tab-button pb-2 ${
+                      activeTab === "mac"
+                        ? "border-b-2 border-b-green-800   text-green-800"
+                        : "bg-transparent "
+                    }`}
+                    onClick={() => setActiveTab("mac")}
+                  >
+                    Mac
+                  </button>
+                  <button
+                    className={`tab-button pb-2 ${
+                      activeTab === "linux"
+                        ? "border-b-2 border-b-green-800  text-green-800 "
+                        : "bg-transparent "
+                    }`}
+                    onClick={() => setActiveTab("linux")}
+                  >
+                    Linux
+                  </button>
                 </div>
               </div>
-            )}
+              <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-8">
+                {filteredSoftwareList.map((item, index) => (
+                  <Link href={`/softwareDetails/${item._id}`} key={index}>
+                    <div
+                      className="relative p-5 bg-white shadow-lg rounded-lg 
+             overflow-hidden min-h-[180px]"
+                    >
+                      <div className="relative flex">
+                        <div
+                          className="w-20 h-20 bg-cover bg-center"
+                          style={{ backgroundImage: `url(${item.image})` }}
+                        />
+                        <div className="bottom-0 pl-4  left-0 right-0">
+                          <div className="text-sm font-semibold text-neutral-600">
+                            {item.name}
+                          </div>
+                          <div className="text-green-500 text-sm font-semibold">
+                            FREE
+                          </div>
+                        </div>
+                      </div>
+                      <div className="pt-4">
+                        <div
+                          className="text-sm text-gray-600 overflow-hidden text-center "
+                          style={{
+                            maxHeight: "4rem",
+                            WebkitLineClamp: 2,
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                          }}
+                        >
+                          {item.description}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              {filteredSoftwareList.length > 0 && (
+                <div className="pt-5 pb-5 items-center justify-center flex flex-col gap-4">
+                  <div className="text-center w-64 h-12 border border-solid border-green-500">
+                    <div
+                      className="font-bold text-green-500 text-sm text-center leading-10 cursor-pointer"
+                      onClick={handleSeeAllClick}
+                    >
+                      SEE ALL
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      <Footer />
-    </ChakraProvider>
+        <Footer />
+      </ChakraProvider>
+    </>
   );
 }

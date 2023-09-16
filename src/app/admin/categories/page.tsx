@@ -48,7 +48,6 @@ export default function Category() {
   // Function to handle editing a software (you can implement this)
   const handleEdit = (categoryId: any) => {
     // Implement the edit functionality here
-    console.log(`Editing software with ID ${categoryId}`);
   };
 
   const handleDelete = async (categoryId: any) => {
@@ -76,7 +75,6 @@ export default function Category() {
       }
     } catch (error) {
       // Handle any errors that occur during the request
-      console.error("Error deleting software:", error);
       toast.error("An error occurred while deleting software");
     }
   };

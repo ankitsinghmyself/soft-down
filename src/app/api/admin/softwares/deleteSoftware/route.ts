@@ -16,7 +16,6 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Missing softwareId" }, { status: 400 });
     }
 
-    console.log('Software ID:', softwareId);
 
     // Delete the software record from the database
     const deletedSoftware = await Software.findByIdAndDelete(softwareId as string);

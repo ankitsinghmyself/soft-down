@@ -6,7 +6,6 @@ connect(); // Initialize your database connection
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("Request body:", request.body);
     const reqBody = await request.json();
     const { name } = reqBody;
     // Create a new software document

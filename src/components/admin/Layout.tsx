@@ -1,7 +1,13 @@
-import React from 'react';
-import { Box, Flex } from '@chakra-ui/react';
-import Sidebar from './sidebar/Sidebar'; // Import the Sidebar component
-import Header from './Header';
+import React from "react";
+import { Box, Flex } from "@chakra-ui/react";
+import Sidebar from "./sidebar/Sidebar"; // Import the Sidebar component
+import Header from "./Header";
+import {
+  ChakraProvider,
+  ColorModeScript,
+  CSSReset,
+  extendTheme,
+} from "@chakra-ui/react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,16 +15,25 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <Flex>
-      {/* Add the Sidebar component */}
-      <Sidebar />
-      <Flex direction="column" flex="1">
-        <Header />
-        <Box px="50px" py="50px" flexGrow={1} overflowY="auto">
-          {children}
-        </Box>
+    <ChakraProvider>
+      {" "}
+      <Flex>
+        {/* Add the Sidebar component */}
+        <Sidebar />
+        <Flex direction="column" flex="1">
+          <Header />
+          <Box
+            px="20px"
+            py="20px"
+            flexGrow={1}
+            overflowY="auto"
+            className="bg-blue-100"
+          >
+            {children}
+          </Box>
+        </Flex>
       </Flex>
-    </Flex>
+    </ChakraProvider>
   );
 };
 

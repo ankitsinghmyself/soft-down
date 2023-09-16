@@ -1,126 +1,68 @@
-import React, { useEffect, useState } from "react";
-import { Drawer, Box, IconButton, Tooltip } from "@mui/material";
-import { Scrollbars } from "react-custom-scrollbars-2";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import Links from "./components/Links";
-import Brand from "./components/Brand";
+import React from "react";
 import {
-  Avatar,
+  Box,
   Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Spacer,
   Stack,
 } from "@chakra-ui/react";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { Scrollbars } from "react-custom-scrollbars-2";
+import Links from "./Links";
+import { MdCategory, MdDashboard, MdDocumentScanner } from "react-icons/md";
+import { SoftDown } from "@/components/frontend/header/SoftDownLogo";
 
 function Sidebar() {
-  const router = useRouter();
-  const [userData, setUserData] = useState<any>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    getUserDetails();
-  }, []);
-
-  const getUserDetails = async () => {
-    try {
-      const res = await axios.get("/api/users/me");
-      setUserData(res.data.user);
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await axios.get("/api/users/logout");
-      toast.success("Logout successful");
-      router.push("/login");
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error(error.message);
-    }
-  };
   const routes = [
     {
       layout: "/admin",
       path: "/dashboard",
       name: "Dashboard",
-      icon: <DashboardIcon />,
+      icon: <MdDashboard />,
     },
     {
       layout: "/admin",
       path: "/softwares",
       name: "Software",
-      icon: <DashboardIcon />,
+      icon: <MdDocumentScanner />,
     },
     {
       layout: "/admin",
       path: "/categories",
       name: "Categories",
-      icon: <DashboardIcon />,
+      icon: <MdCategory />,
     },
   ];
 
   return (
-    <>
-      <Box
-        width="300px"
-        height="100vh"
-        boxShadow="14px 17px 40px 4px rgba(112, 144, 176, 0.08)"
+    <Box width="300px" height="100vh" color="white" className="bg-blue-200">
+      <Scrollbars
+        autoHide
+        style={{ width: "100%", height: "100%" }}
+        renderView={() => <div style={{ overflow: "hidden" }} />}
+        renderTrackVertical={() => <div />}
+        renderTrackHorizontal={() => <div />}
+        className="border-r border-gray-500 "
       >
-        <Scrollbars autoHide>
-          <Flex direction="row" height="10%" pt="25px" borderRadius="30px">
-            <Brand />
-            <Flex alignItems="center">
-              <Menu>
-                <MenuButton className="flex flex-1">
-                  {userData && (
-                    <div className="flex">
-                      <div>
-                        {" "}
-                        <Avatar
-                          size="xs"
-                          name={userData.userName}
-                          src={userData.userAvatarUrl}
-                          marginRight="2"
-                          borderRadius="20"
-                          onClick={() => setIsMenuOpen(!isMenuOpen)}
-                          cursor="pointer"
-                          className="w-[32px]"
-                        />
-                      </div>
-                      <div>
-                        <p className="">{userData.userName.toUpperCase()}</p>
-                      </div>
-                    </div>
-                  )}
-                </MenuButton>
-                <MenuList bg={"lightgray"} p={"10"} borderRadius={"5px"}>
-                  <MenuItem onClick={() => setIsMenuOpen(false)}>
-                    Profile
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </MenuList>
-              </Menu>
+        <Flex direction="column" height="100%" borderRadius="30px">
+          <Flex
+            direction="row"
+            align="center"
+            justify="space-between"
+            p={3}
+            boxShadow={'md'}
+            className="bg-blue-400"
+          >
+            <Flex alignItems="center" flexDirection="row" fontWeight="extrabold" fontSize="2xl">
+              Soft Down
+              <SoftDown />
             </Flex>
           </Flex>
-          <Flex direction="column" height="100%" pt="25px" borderRadius="30px">
-           
-            <Stack direction="column" mt="8px" mb="auto">
-              <Box>
-                <Links routes={routes} />
-              </Box>
-            </Stack>
-          </Flex>
-        </Scrollbars>
-      </Box>
-    </>
+          <Stack direction="column" mt="8px" mb="auto">
+            <Box>
+              <Links routes={routes} />
+            </Box>
+          </Stack>
+        </Flex>
+      </Scrollbars>
+    </Box>
   );
 }
 

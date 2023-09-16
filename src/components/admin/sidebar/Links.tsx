@@ -16,8 +16,6 @@ export function SidebarLinks(props: SidebarLinksProps) {
   const pathname = usePathname();
   const createLinks = (routes: SidebarLinksProps["routes"]) => {
     return routes.map((route, index: number) => {
-      console.warn("tt",pathname);
-      console.warn("dd",route.layout + route.path);
       let isActive = pathname === route.layout + route.path;
       if (route.layout === "/admin") {
         return (

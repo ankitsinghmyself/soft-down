@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import Navbar from "@/components/header/Navbar";
-import Footer from "@/components/footer/Footer";
+import Navbar from "@/components/frontend/header/Navbar";
+import Footer from "@/components/frontend/footer/Footer";
 import axios from "axios";
 
 interface Software {
