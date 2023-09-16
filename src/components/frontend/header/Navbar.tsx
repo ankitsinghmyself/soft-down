@@ -19,13 +19,24 @@ export default function App() {
   const menuItems = ["Help & Feedback"];
 
   return (
-    <Box borderWidth={isMenuOpen ? "1px" : "0"} maxWidth="1200px">
+    <Box borderWidth={isMenuOpen ? "1px" : "0"} padding="0 190px" bg="brand.100">
       <HStack
         alignItems="center"
         p={3}
         spacing={4}
         justifyContent="space-between"
       >
+        <Box display={{ sm: "none", md: "block" }}>
+          <HStack spacing={4}>
+            <Link color="foreground" href="/">
+              <SoftDown />
+              <Text fontWeight="bold" color="inherit">
+                SoftDown
+              </Text>
+            </Link>
+          </HStack>
+        </Box>
+
         <Box>
           <IconButton
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -43,17 +54,6 @@ export default function App() {
             </Text>
           </Link>
         </HStack>
-
-        <Box display={{ sm: "none", md: "block" }}>
-          <HStack spacing={4}>
-            <Link color="foreground" href="/">
-              <SoftDown />
-              <Text fontWeight="bold" color="inherit">
-                SoftDown
-              </Text>
-            </Link>
-          </HStack>
-        </Box>
 
         <Box display={{ base: "none", sm: "block" }}>
           <Menu>

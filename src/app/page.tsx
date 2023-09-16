@@ -10,17 +10,20 @@ import {
 import MainPage from "./mainPage/page";
 const theme = extendTheme({
   colors: {
-    // brand: {
-    //   100: "#f7fafc",
-    //   // ...
-    //   900: "#1a202c",
-    // },
+    transparent: "transparent",
+    black: "#000",
+    white: "#fff",
+    brand: {
+      50: "F0FFF4",
+      100: "#C6F6D5",
+      200: "#9AE6B4",
+      300: "#68D391",
+      400: "#48BB78",
+    },
   },
 });
 
 export default function Home() {
- 
-
   return (
     <>
       <ChakraProvider theme={theme}>

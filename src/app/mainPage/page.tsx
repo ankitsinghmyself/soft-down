@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { Box } from "@chakra-ui/react";
 interface Software {
   _id: string;
   name: string;
@@ -74,7 +75,8 @@ function MainPage() {
 
   const path = usePathname();
   return (
-    <div>
+    <Box  bg="brand.50">
+
       <main className="flex items-center justify-center">
         <div className="w-full max-w-screen-xl bg-background/70 py-4 px-4 sm:py-8 sm:px-20 ">
           <div className="items-center relative">
@@ -168,7 +170,7 @@ function MainPage() {
           </div>
         </div>
       </main>
-    </div>
+    </Box>
   );
 }
 
