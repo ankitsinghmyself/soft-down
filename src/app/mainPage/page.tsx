@@ -1,15 +1,7 @@
 "use client";
-import Navbar from "@/components/frontend/header/Navbar";
-import Footer from "@/components/frontend/footer/Footer";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import {
-  ChakraProvider,
-  ColorModeScript,
-  CSSReset,
-  extendTheme,
-} from "@chakra-ui/react";
 interface Software {
   _id: string;
   name: string;
