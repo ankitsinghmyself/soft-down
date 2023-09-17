@@ -40,6 +40,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  HStack,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import Layout from "@/components/admin/Layout";
@@ -72,7 +73,7 @@ export default function Software() {
     image: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
   const totalPages = Math.ceil(allSoftware.length / itemsPerPage);
   const paginateSoftware = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -171,10 +172,14 @@ export default function Software() {
   return (
     <>
       <Layout>
-        <Stack direction="row" spacing={4}></Stack>
         <Box>
           <VStack>
-            <Flex flexWrap="wrap" justifyContent="space-between">
+            <HStack
+              spacing={4}
+              mb={4}
+              flexWrap="wrap"
+              justifyContent="space-between"
+            >
               <Box mb={4}>
                 <Input
                   variant="filled"
@@ -242,7 +247,7 @@ export default function Software() {
                   Add Software
                 </Button>
               </Box>
-            </Flex>
+            </HStack>
             <Divider my={4} />
             <Table size="sm">
               <Thead>
@@ -254,46 +259,47 @@ export default function Software() {
                 </Tr>
               </Thead>
               <Tbody>
-                {paginateSoftware && paginateSoftware().map((item) => (
-                  <Tr key={item._id}>
-                    <Td>{item.name}</Td>
-                    <Td>
-                      {item.image ? (
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          boxSize="12"
-                          loading="lazy"
+                {paginateSoftware &&
+                  paginateSoftware().map((item) => (
+                    <Tr key={item._id}>
+                      <Td>{item.name}</Td>
+                      <Td>
+                        {item.image ? (
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            boxSize="12"
+                            loading="lazy"
+                          />
+                        ) : item.link ? (
+                          <Image
+                            src={item.link}
+                            alt={item.name}
+                            boxSize="12"
+                            loading="lazy"
+                          />
+                        ) : null}
+                      </Td>
+                      <Td>
+                        <IconButton
+                          size="sm"
+                          colorScheme="teal"
+                          aria-label="Edit"
+                          icon={<EditIcon />}
+                          onClick={() => handleEdit(item._id)}
                         />
-                      ) : item.link ? (
-                        <Image
-                          src={item.link}
-                          alt={item.name}
-                          boxSize="12"
-                          loading="lazy"
+                      </Td>
+                      <Td>
+                        <IconButton
+                          size="sm"
+                          colorScheme="red"
+                          aria-label="Delete"
+                          icon={<DeleteIcon />}
+                          onClick={() => handleDelete(item._id)}
                         />
-                      ) : null}
-                    </Td>
-                    <Td>
-                      <IconButton
-                        size="sm"
-                        colorScheme="teal"
-                        aria-label="Edit"
-                        icon={<EditIcon />}
-                        onClick={() => handleEdit(item._id)}
-                      />
-                    </Td>
-                    <Td>
-                      <IconButton
-                        size="sm"
-                        colorScheme="red"
-                        aria-label="Delete"
-                        icon={<DeleteIcon />}
-                        onClick={() => handleDelete(item._id)}
-                      />
-                    </Td>
-                  </Tr>
-                ))}
+                      </Td>
+                    </Tr>
+                  ))}
               </Tbody>
             </Table>
             {totalPages > 1 && (

@@ -10,15 +10,12 @@ import {
 import MainPage from "./mainPage/page";
 const theme = extendTheme({
   colors: {
-    transparent: "transparent",
-    black: "#000",
-    white: "#fff",
-    brand: {
-      50: "F0FFF4",
-      100: "#C6F6D5",
-      200: "#9AE6B4",
-      300: "#68D391",
-      400: "#48BB78",
+    breakpoints: {
+      base: "0em", // Mobile (default)
+      sm: "30em",  // Small screens
+      md: "48em",  // Medium screens
+      lg: "62em",  // Large screens
+      xl: "80em",  // Extra-large screens
     },
   },
 });
