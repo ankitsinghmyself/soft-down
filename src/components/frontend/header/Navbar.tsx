@@ -68,7 +68,7 @@ export default function WithSubnavigation() {
           justify={'flex-end'}
           direction={'row'}
           spacing={6}>
-          <Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
+          <Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'/login'}>
             Sign In
           </Button>
           <Button
@@ -78,7 +78,7 @@ export default function WithSubnavigation() {
             fontWeight={600}
             color={'white'}
             bg={'blue.400'}
-            href={'#'}
+            href={'/signup'}
             _hover={{
               bg: 'blue.300',
             }}>
