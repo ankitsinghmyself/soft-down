@@ -1,4 +1,4 @@
-# Next.js Project with Chakra UI
+# Next.js FullStack Project with Chakra UI/MongoDB
 
 This is a Next.js project using Chakra UI to build a full-stack web application. The project includes routing and navigation.
 
@@ -7,9 +7,8 @@ This is a Next.js project using Chakra UI to build a full-stack web application.
 To get started with this project, follow these steps:
 
 1. Clone the repository to your local machine:
-
    ```bash
-   git clone [https://github.com/ankitsinghmyself/soft-down.git]
+   git clone https://github.com/ankitsinghmyself/soft-down.git
    cd softdown
    ```
 2. Install the dependencies:
